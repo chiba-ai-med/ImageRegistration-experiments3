@@ -1,0 +1,22 @@
+name: r-guidedpls
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - r-base=4.3
+  - r-essentials
+  - r-devtools
+  - r-tidyverse
+  - r-dplyr
+  - r-fields
+  - r-rcolorbrewer
+  - r-matrix
+  - r-irlba
+  - r-biocmanager
+  - compilers
+  - git
+  - pip
+  - python=3.10
+  - pandas
+  - numpy

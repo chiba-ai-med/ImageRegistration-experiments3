@@ -1,0 +1,34 @@
+# Project data / outputs
+.cache/
+.snakemake/
+data/
+output/
+logs/
+report/
+FRLC/
+
+# plot/: ignore everything except DAG PNGs at root and paper-figure picks
+plot/*
+!plot/*.png
+!plot/Figures/
+!plot/Figures/**
+
+# Python
+__pycache__/
+*.py[co]
+*.egg
+*.egg-info/
+.ipynb_checkpoints/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# Editor / OS
+.DS_Store
+._*
+*.swp
+*~
+.vscode/
+.idea/
