@@ -1,38 +1,59 @@
 # ImageRegistration-experiments3
 
-Cross-modal spatial alignment benchmark: lipid MSI (SL section 12) → spatial transcriptomics (ST section 32) on mouse brain tissue (251208).
+A reproducible Snakemake workflow that benchmarks cross-modal spatial alignment between lipid mass-spectrometry imaging (MSI, SL section 12) and spatial transcriptomics (ST section 32) on mouse brain tissue (dataset `251208`). Optimal-transport baselines (qGW, FRLC, LR-GW) are compared against **guided-PLS**, which is the only method that yields a non-trivial alignment on this dataset.
 
-This workflow consists of 5 workflows as follows:
+This repository is one of three sibling repositories that together support a single manuscript on guided-PLS:
 
-- **workflow/preprocess.smk**: Data preprocessing (source / target spot matrices)
+- [`chiba-ai-med/guidedPLS-experiments-sc`](https://github.com/chiba-ai-med/guidedPLS-experiments-sc) — single-cell multi-omics experiments
+- [`chiba-ai-med/guidedPLS-experiments-bulk`](https://github.com/chiba-ai-med/guidedPLS-experiments-bulk) — bulk multi-omics experiments
+- [`chiba-ai-med/ImageRegistration-experiments3`](https://github.com/chiba-ai-med/ImageRegistration-experiments3) — **this repository** (cross-modal image-registration experiments)
+
+## Workflow
+
+The pipeline is split into five sub-workflows under `workflow/`, executed in order. Each is a standalone `.smk` file; no top-level `Snakefile` is used.
+
+- **workflow/preprocess.smk**: Preprocessing of the source (MSI, 47,734 spots × 173 lipid features) and target (ST, 39,891 spots × 1,120 gene features) matrices from `data/251208/`.
 
 ![](https://github.com/chiba-ai-med/ImageRegistration-experiments3/blob/main/plot/preprocess.png?raw=true)
 
-- **workflow/ot.smk**: Optimal Transport methods (qGW, FRLC, LR-GW)
+- **workflow/ot.smk**: Optimal-transport baselines — quantized GW (`qGW`), factor-relaxation low-rank GW (`FRLC`), and low-rank GW (`LR-GW`).
 
 ![](https://github.com/chiba-ai-med/ImageRegistration-experiments3/blob/main/plot/ot.png?raw=true)
 
-- **workflow/guidedpls.smk**: `GuidedPLS` cross-modal alignment
+- **workflow/guidedpls.smk**: Cross-modal alignment by `guidedPLS`, using CCF anatomical annotations as the guide.
 
 ![](https://github.com/chiba-ai-med/ImageRegistration-experiments3/blob/main/plot/guidedpls.png?raw=true)
 
-- **workflow/evaluation.smk**: Evaluation against marker-pair correlations (HexCer/SM × Mog/Sox10)
+- **workflow/evaluation.smk**: Quantitative evaluation against marker-pair correlations (HexCer/SM × Mog/Sox10, 40 pairs total).
 
 ![](https://github.com/chiba-ai-med/ImageRegistration-experiments3/blob/main/plot/evaluation.png?raw=true)
 
-- **workflow/plot.smk**: Plots for warped expressions and summary figures
+- **workflow/plot.smk**: Visualization of warped expressions and summary figures across all methods.
 
 ![](https://github.com/chiba-ai-med/ImageRegistration-experiments3/blob/main/plot/plot.png?raw=true)
 
+Static HTML reports per sub-workflow are available under `report/` (regenerable via `bash workflow/report.sh`).
+
 ## Requirements
-- Bash
-- Snakemake
+
+- Bash: GNU bash 4.0+
+- Snakemake: 9.x
 - Singularity (or Docker)
+- Graphviz: any recent version (used by `workflow/dag.sh` to render the DAGs)
+
+The recommended environment on the development machine is the `snakemake` conda env, which already bundles Snakemake and Graphviz:
+
+```bash
+conda activate snakemake
+```
+
+All rule-level dependencies are isolated in Singularity containers (`koki/ir-experiments*`, `koki/ot-experiments*`) and pulled automatically when `--use-singularity` is set.
 
 ## How to reproduce this workflow
+
 ### In Local Machine
 
-```
+```bash
 snakemake -s workflow/preprocess.smk -j 4 --use-singularity
 snakemake -s workflow/ot.smk -j 4 --use-singularity
 snakemake -s workflow/guidedpls.smk -j 4 --use-singularity
@@ -42,7 +63,7 @@ snakemake -s workflow/plot.smk -j 4 --use-singularity
 
 ### In Open Grid Engine
 
-```
+```bash
 snakemake -s workflow/preprocess.smk -j 32 --cluster qsub --latency-wait 600 --use-singularity
 snakemake -s workflow/ot.smk -j 32 --cluster qsub --latency-wait 600 --use-singularity
 snakemake -s workflow/guidedpls.smk -j 32 --cluster qsub --latency-wait 600 --use-singularity
@@ -52,7 +73,7 @@ snakemake -s workflow/plot.smk -j 32 --cluster qsub --latency-wait 600 --use-sin
 
 ### In Slurm
 
-```
+```bash
 snakemake -s workflow/preprocess.smk -j 32 --cluster sbatch --latency-wait 600 --use-singularity
 snakemake -s workflow/ot.smk -j 32 --cluster sbatch --latency-wait 600 --use-singularity
 snakemake -s workflow/guidedpls.smk -j 32 --cluster sbatch --latency-wait 600 --use-singularity
@@ -60,8 +81,27 @@ snakemake -s workflow/evaluation.smk -j 32 --cluster sbatch --latency-wait 600 -
 snakemake -s workflow/plot.smk -j 32 --cluster sbatch --latency-wait 600 --use-singularity
 ```
 
+### Regenerate the DAGs and HTML reports
+
+```bash
+bash workflow/dag.sh      # -> plot/{preprocess,ot,guidedpls,evaluation,plot}.png
+bash workflow/report.sh   # -> report/{preprocess,ot,guidedpls,evaluation,plot}.html
+```
+
+## Outputs
+
+Raw data (`data/`, ~3.6 GB) and intermediate Snakemake outputs (`output/`, ~59 GB) are excluded from version control via `.gitignore` and must be regenerated by running the workflow.
+
+The persistent, version-controlled outputs are:
+
+- `plot/*.png` — Snakemake rule-graph DAGs for each sub-workflow (rendered by `workflow/dag.sh`, embedded above)
+- `plot/Figures/` — manuscript-quality figures, hand-curated from `plot/251208/{guidedpls,qgw,frlc,lrgw,dataset,...}/`. This directory is the canonical source for figures included in the paper.
+- `benchmarks/` — per-rule runtime / memory benchmarks emitted by Snakemake
+
 ## License
-Copyright (c) 2026 Artificial Intelligence Medicine released under the [MIT License](https://opensource.org/licenses/MIT).
+
+Copyright (c) 2026 Artificial Intelligence Medicine. Released under the [MIT License](LICENSE).
 
 ## Authors
+
 - Koki Tsuyuzaki
