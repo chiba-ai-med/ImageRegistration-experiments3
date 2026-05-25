@@ -61,7 +61,7 @@ snakemake -s workflow/plot.smk -j 32 --cluster sbatch --latency-wait 600 --use-s
 ```
 
 ## License
-Copyright (c) 2026 Koki Tsuyuzaki released under the [Artistic License 2.0](http://www.perlfoundation.org/artistic_license_2_0).
+Copyright (c) 2026 Artificial Intelligence Medicine released under the [MIT License](https://opensource.org/licenses/MIT).
 
 ## Authors
 - Koki Tsuyuzaki
