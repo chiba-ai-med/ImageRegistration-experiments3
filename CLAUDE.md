@@ -51,11 +51,12 @@ snakemake -s workflow/plot.smk --cores 4
 
 ## Paper context
 
-This repo is one of 3 repos that will be merged into a single paper:
+This repo is one of 4 repos that will be merged into a single paper:
 
-- `chiba-ai-med/ImageRegistration-experiments3` (this repo) — cross-modal spatial alignment benchmark (MSI ↔ ST)
-- `chiba-ai-med/guidedPLS-experiments-sc` — GuidedPLS on single-cell data
+- `chiba-ai-med/guidedPLS-experiments-sim` — GuidedPLS on synthetic data with known ground truth
 - `chiba-ai-med/guidedPLS-experiments-bulk` — GuidedPLS on bulk data
+- `chiba-ai-med/guidedPLS-experiments-sc` — GuidedPLS on single-cell data
+- `chiba-ai-med/ImageRegistration-experiments3` (this repo) — cross-modal spatial alignment benchmark (MSI ↔ ST)
 
 Each repo summarizes its own results in isolation; results are merged in the final paper.
 

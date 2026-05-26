@@ -2,10 +2,11 @@
 
 A reproducible Snakemake workflow that benchmarks cross-modal spatial alignment between lipid mass-spectrometry imaging (MSI, SL section 12) and spatial transcriptomics (ST section 32) on mouse brain tissue (dataset `251208`). Optimal-transport baselines (qGW, FRLC, LR-GW) are compared against **guided-PLS**, which is the only method that yields a non-trivial alignment on this dataset.
 
-This repository is one of three sibling repositories that together support a single manuscript on guided-PLS:
+This repository is one of four sibling repositories that together support a single manuscript on guided-PLS:
 
-- [`chiba-ai-med/guidedPLS-experiments-sc`](https://github.com/chiba-ai-med/guidedPLS-experiments-sc) — single-cell multi-omics experiments
+- [`chiba-ai-med/guidedPLS-experiments-sim`](https://github.com/chiba-ai-med/guidedPLS-experiments-sim) — synthetic-data benchmark with known ground truth
 - [`chiba-ai-med/guidedPLS-experiments-bulk`](https://github.com/chiba-ai-med/guidedPLS-experiments-bulk) — bulk multi-omics experiments
+- [`chiba-ai-med/guidedPLS-experiments-sc`](https://github.com/chiba-ai-med/guidedPLS-experiments-sc) — single-cell multi-omics experiments
 - [`chiba-ai-med/ImageRegistration-experiments3`](https://github.com/chiba-ai-med/ImageRegistration-experiments3) — **this repository** (cross-modal image-registration experiments)
 
 ## Workflow
