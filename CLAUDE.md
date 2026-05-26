@@ -56,9 +56,9 @@ This repo is one of 4 repos that will be merged into a single paper:
 - `chiba-ai-med/guidedPLS-experiments-sim` — GuidedPLS on synthetic data with known ground truth
 - `chiba-ai-med/guidedPLS-experiments-bulk` — GuidedPLS on bulk data
 - `chiba-ai-med/guidedPLS-experiments-sc` — GuidedPLS on single-cell data
-- `chiba-ai-med/ImageRegistration-experiments3` (this repo) — cross-modal spatial alignment benchmark (MSI ↔ ST)
+- `chiba-ai-med/ImageRegistration-experiments3` (this repo) — cross-modal spatial alignment benchmark (MSI ↔ ST); contributes **Fig. 3 (Spatial omics / Image registration)**
 
-Each repo summarizes its own results in isolation; results are merged in the final paper.
+Each repo summarizes its own results in isolation; results are merged in the final paper. Figure assignments: sim → Fig. 2, bulk / sc → Fig. 4–5 (TBD), this repo → Fig. 3.
 
 ## Benchmark results summary
 
