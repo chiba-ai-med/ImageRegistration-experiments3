@@ -56,9 +56,9 @@ This repo is one of 4 repos that will be merged into a single paper:
 - `chiba-ai-med/guidedPLS-experiments-sim` — GuidedPLS on synthetic data with known ground truth
 - `chiba-ai-med/guidedPLS-experiments-bulk` — GuidedPLS on bulk data
 - `chiba-ai-med/guidedPLS-experiments-sc` — GuidedPLS on single-cell data
-- `chiba-ai-med/ImageRegistration-experiments3` (this repo) — cross-modal spatial alignment benchmark (MSI ↔ ST); contributes **Fig. 3 (Spatial omics / Image registration)**
+- `chiba-ai-med/ImageRegistration-experiments3` (this repo) — cross-modal spatial alignment benchmark (MSI ↔ ST); contributes **Fig. 3 (Brain)** and **Fig. 4 (Kidney)** in the Spatial omics / Image registration section
 
-Each repo summarizes its own results in isolation; results are merged in the final paper. Figure assignments: sim → Fig. 2, bulk / sc → Fig. 4–5 (TBD), this repo → Fig. 3.
+Each repo summarizes its own results in isolation; results are merged in the final paper. Figure assignments: sim → Fig. 2, this repo → Fig. 3 + Fig. 4, bulk / sc → Fig. 5+ (TBD).
 
 ## Benchmark results summary
 
@@ -71,9 +71,14 @@ Notes on the failed methods (for reference, not to revisit):
 
 ## Directory notes
 
-- `plot/kidney/` — exploratory run on a different (kidney) dataset, kept for reference only; not part of the 251208 brain pipeline
+- `plot/251208/` — brain pipeline outputs (Fig. 3 source). Marker pair: HexCer/SM × Mog/Sox10 (myelin).
+- `plot/kidney/` — kidney pipeline outputs (Fig. 4 source). Marker pair: FA.22.6 × Slc27a2 (DHA / proximal-tubule transporter). Only a single source–target pair is evaluated.
 - `workflow/{evaluate,ir}.smk` — older/superseded workflows; not included in `dag.sh` / `report.sh`. The 5 active workflows are `preprocess`, `ot`, `guidedpls`, `evaluation`, `plot`
-- `plot/Figures/` — paper-ready figures hand-picked from `plot/{251208,kidney}/`. `plot/*.png` at the top level are Snakemake DAG images (embedded in README)
+- `plot/Figures/` — paper-ready figures hand-picked from `plot/{251208,kidney}/`. `main/` holds Fig3* (brain) + Fig4* (kidney); `supplementary/{topic}/{brain,kidney}/` mirrors the split. `plot/*.png` at the top level are Snakemake DAG images (embedded in README).
+
+## Orientation caveat
+
+MSI source and ST target coordinate frames do **not** share a global orientation, and individual OT methods can silently produce flipped slice outputs depending on warp parameterization. Always visually verify panel orientation against `Fig{3,4}A_task_overview_target.png` before finalizing any figure. When in doubt, regenerate from `output/{251208,kidney}/{method}/warped.txt` rather than trusting the cached PNG.
 
 ## What's gitignored
 
