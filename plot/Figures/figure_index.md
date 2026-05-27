@@ -95,7 +95,7 @@ Only one marker pair is evaluated on kidney, so Fig. 4D has two panels.
 
 ## Supplementary (`plot/Figures/supplementary/`)
 
-All supplementary subdirectories are split into `brain/` and `kidney/` except `workflow_dag/` (dataset-independent).
+All supplementary subdirectories are split into `brain/` and `kidney/`.
 
 ### `parameter_sensitivity/` (brain: 15, kidney: 11)
 
@@ -121,11 +121,7 @@ Source/target density and log-scale distributions.
 
 - `{brain,kidney}/pairplot_batch.png` — pairplot coloured by batch instead of anatomy; sanity check that batch is not driving the recovered structure.
 
-### `workflow_dag/` (5 files, dataset-independent)
-
-Snakemake rule-graphs for each sub-workflow. Useful for the methods section.
-
-- `preprocess.png`, `ot.png`, `guidedpls.png`, `evaluation.png`, `plot.png`
+(Workflow rule-graph PNGs live at the repo top level `plot/*.png` and are embedded in `README.md`, not duplicated here.)
 
 ## Provenance
 
