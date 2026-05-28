@@ -22,9 +22,9 @@ from pathlib import Path
 
 
 METHODS = [
-    "qgw", "frlc", "lrgw",
     "ir_sum_rigid", "ir_sum_affine", "ir_sum_sitk_rigid",
     "ir_anat_rigid", "ir_anat_affine", "ir_anat_sitk_rigid",
+    "qgw", "frlc", "lrgw",
     "guidedpls",
 ]
 COLORS = {

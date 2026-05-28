@@ -16,27 +16,27 @@ from pathlib import Path
 
 
 METHODS_BRAIN = [
-    ("01_qGW",                "qgw/1E+10",         False),
-    ("02_FRLC",               "frlc/10",           False),
-    ("03_LR-GW",              "lrgw/20",           False),
-    ("04_ir_sum_rigid",       "ir_sum_rigid",      False),
-    ("05_ir_sum_affine",      "ir_sum_affine",     False),
-    ("06_ir_sum_sitk_rigid",  "ir_sum_sitk_rigid", False),
-    ("07_ir_anat_rigid",      "ir_anat_rigid",     False),
-    ("08_ir_anat_affine",     "ir_anat_affine",    False),
-    ("09_ir_anat_sitk_rigid", "ir_anat_sitk_rigid",False),
+    ("01_ir_sum_rigid",       "ir_sum_rigid",      False),
+    ("02_ir_sum_affine",      "ir_sum_affine",     False),
+    ("03_ir_sum_sitk_rigid",  "ir_sum_sitk_rigid", False),
+    ("04_ir_anat_rigid",      "ir_anat_rigid",     False),
+    ("05_ir_anat_affine",     "ir_anat_affine",    False),
+    ("06_ir_anat_sitk_rigid", "ir_anat_sitk_rigid",False),
+    ("07_qGW",                "qgw/1E+10",         False),
+    ("08_FRLC",               "frlc/10",           False),
+    ("09_LR-GW",              "lrgw/20",           False),
     ("10_guidedPLS",          "guidedpls",         False),
 ]
-# Kidney: LR-GW absent (degenerate)
+# Kidney: LR-GW absent (degenerate); slot 09 intentionally skipped
 METHODS_KIDNEY = [
-    ("01_qGW",                "qgw/1E+10",         False),
-    ("02_FRLC",               "frlc/20",           False),
-    ("04_ir_sum_rigid",       "ir_sum_rigid",      False),
-    ("05_ir_sum_affine",      "ir_sum_affine",     False),
-    ("06_ir_sum_sitk_rigid",  "ir_sum_sitk_rigid", False),
-    ("07_ir_anat_rigid",      "ir_anat_rigid",     False),
-    ("08_ir_anat_affine",     "ir_anat_affine",    False),
-    ("09_ir_anat_sitk_rigid", "ir_anat_sitk_rigid",False),
+    ("01_ir_sum_rigid",       "ir_sum_rigid",      False),
+    ("02_ir_sum_affine",      "ir_sum_affine",     False),
+    ("03_ir_sum_sitk_rigid",  "ir_sum_sitk_rigid", False),
+    ("04_ir_anat_rigid",      "ir_anat_rigid",     False),
+    ("05_ir_anat_affine",     "ir_anat_affine",    False),
+    ("06_ir_anat_sitk_rigid", "ir_anat_sitk_rigid",False),
+    ("07_qGW",                "qgw/1E+10",         False),
+    ("08_FRLC",               "frlc/20",           False),
     ("10_guidedPLS",          "guidedpls",         False),
 ]
 

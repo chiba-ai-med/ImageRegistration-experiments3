@@ -17,11 +17,8 @@ Evaluation marker: `HexCer.42.1.O2` (myelin-associated). Five panels A–E.
 
 | Panel | File | Notes |
 |---|---|---|
-| 3A | `Fig3A_brain_{source,target,source_anatomy,target_anatomy}.png` | 4 slices; MSI 47,734 × 173 lipids → ST 39,891 × 1,120 genes |
-| 3B | `Fig3B_brain_cc_summary{,_legend}.png` | Mean ± SD CC across all (param, marker) pairs. Bar x-axis has **no tick labels**; the colour ↔ method mapping is provided by the shared legend strip in `_legend.png` (2 rows × 5 cols, formal display names) |
-| 3C | `Fig3C_brain_cost_time.png` | Wall time per method (log y). No x-tick labels; reuse the Fig3B legend strip |
-| 3D | `Fig3D_brain_cost_memory.png` | Peak RSS per method. No x-tick labels; reuse the Fig3B legend strip |
-| 3E | `Fig3E_brain_alignment_{00_source,01_qGW,02_FRLC,03_LR-GW,04..09_ir_*,10_guidedPLS}.png` | 11 panels: source reference + 10 methods |
+| 3a (slices) | `Fig3a_brain_{source,target,source_anatomy,target_anatomy}.png` + `Fig3a_brain_alignment_{00_source,01..06_ir_*,07_qGW,08_FRLC,09_LR-GW,10_guidedPLS}.png` | 4 anatomical/marker overview slices + 11 method-comparison slices (source reference + 10 methods, in IR → OT → guidedPLS order) |
+| 3b (bars) | `Fig3b_brain_{cc_summary,cost_time,cost_memory}.png` + shared legend `Fig3b_brain_cc_summary_legend.png` | 3 bar plots (CC, wall time log-y, peak RSS); all share the 4-row × 3-col legend with formal display names. Bars have **no x-tick labels** — colour ↔ method mapping comes from the legend |
 
 Slice point size: `s=17` (tuned to brain's 47K-spot density). Re-render via `src/render_slices.py 251208 17` and `src/render_method_comparison.py 17 60`.
 
@@ -39,11 +36,8 @@ Second-tissue replication. Same 5-panel structure as Fig. 3 (A = slices, B = CC 
 
 | Panel | File | Notes |
 |---|---|---|
-| SA | `FigSA_kidney_{source,target,source_anatomy,target_anatomy}.png` | ST target = 177,369 spots (≈ 4× brain target) |
-| SB | `FigSB_kidney_cc_summary{,_legend}.png` | Single marker pair — bars without SD. Same no-x-label + shared-legend convention as Fig3B |
-| SC | `FigSC_kidney_cost_time.png` | Wall time. No x-tick labels; reuse the FigSB legend |
-| SD | `FigSD_kidney_cost_memory.png` | Peak RSS. No x-tick labels; reuse the FigSB legend |
-| SE | `FigSE_kidney_alignment_{00,01,02,04..10}_*.png` | **10 panels** — LR-GW absent (degenerate, no usable warp on kidney) |
+| Sa (slices) | `FigSa_kidney_{source,target,source_anatomy,target_anatomy}.png` + `FigSa_kidney_alignment_{00_source,01..06_ir_*,07_qGW,08_FRLC,10_guidedPLS}.png` | 4 overview slices + 10 method-comparison slices (LR-GW absent → slot 09 skipped) |
+| Sb (bars) | `FigSb_kidney_{cc_summary,cost_time,cost_memory}.png` + shared legend `FigSb_kidney_cc_summary_legend.png` | Same convention as Fig3b |
 
 Slice point size: `s=60`.
 
@@ -105,23 +99,23 @@ Numerical values quoted above are read from `output/{251208,kidney}/{method}/cc.
 
 ## Conventions
 
-- Naming: `Fig3{Panel}_brain_{description}.png` for the main figure, `FigS{Panel}_kidney_{description}.png` for the supplementary tissue figure. For alignment panels (E), the description starts with a numerical prefix matching bar-plot order: `00_source` → `01_qGW` → `02_FRLC` → `03_LR-GW` → `04..09_ir_*` → `10_guidedPLS`.
+- Naming: `Fig3{a,b}_brain_{description}.png` for the main figure, `FigS{a,b}_kidney_{description}.png` for the supplementary tissue figure (lowercase letters match the panel labels in the composited `Figure3.png`). For alignment slices, the description starts with a numerical prefix matching the new bar-plot order: `00_source` → `01..06_ir_{sum,anat}_{rigid,affine,sitk_rigid}` → `07_qGW` → `08_FRLC` → `09_LR-GW` (brain only) → `10_guidedPLS`.
 - All images are PNG. Hand-curated figures live in `main/`; everything else lives under `supplementary/`.
 - **Always check orientation** before finalizing any panel.
 
 ## Method display names
 
-Internal script names (also used as filename suffixes in alignment panels) ↔ formal names used in `Figure3.png` panel (a) and in every `*_legend.png`:
+Listed in the **bar-plot order** used in `Figure3.png` panel (b) and in every `*_legend.png`: classical image-registration baselines first, then the OT methods, then guidedPLS.
 
-- `qgw` — **OT-qGW** (Quantized Gromov-Wasserstein; Chowdhury et al., ECML PKDD 2021; POT implementation)
-- `frlc` — **OT-FRLC** (Factor Relaxation with Latent Coupling; Halmos, Liu, Gold, Raphael, NeurIPS 2024; FRLC repo, PyTorch)
-- `lrgw` — **OT-LR-GW** (Low-Rank Gromov-Wasserstein; Scetbon, Peyré, Cuturi, ICML 2022; ott-jax)
 - `ir_sum_rigid` — **IR-ANTsPy (rigid, sum)**
 - `ir_sum_affine` — **IR-ANTsPy (affine, sum)**
 - `ir_sum_sitk_rigid` — **IR-SimpleITK (rigid, sum)**
 - `ir_anat_rigid` — **IR-ANTsPy (rigid, anatomy)**
 - `ir_anat_affine` — **IR-ANTsPy (affine, anatomy)**
 - `ir_anat_sitk_rigid` — **IR-SimpleITK (rigid, anatomy)**
+- `qgw` — **OT-qGW** (Quantized Gromov-Wasserstein; Chowdhury et al., ECML PKDD 2021; POT implementation)
+- `frlc` — **OT-FRLC** (Factor Relaxation with Latent Coupling; Halmos, Liu, Gold, Raphael, NeurIPS 2024; FRLC repo, PyTorch)
+- `lrgw` — **OT-LR-GW** (Low-Rank Gromov-Wasserstein; Scetbon, Peyré, Cuturi, ICML 2022; ott-jax)
 - `guidedpls` — **guided-PLS** (Tsuyuzaki, `rikenbit/guidedPLS` R package)
 
 IR family: `{sum, anat}` = reference image used for registration (summed expression vs anatomical-region label map); `{rigid, affine}` = transform degrees of freedom (6 vs 12); `{ANTsPy, SimpleITK}` = implementation library. The display mapping lives in `DISPLAY_NAMES` in both `src/render_cc_barplot.py` and `src/render_cost_barplot.py`.
