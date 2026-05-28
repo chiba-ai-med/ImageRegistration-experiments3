@@ -83,8 +83,10 @@ def render(dataset, metric, out_path):
            color=[COLORS[m] for m in METHODS],
            capsize=4, edgecolor="black", linewidth=0.5,
            error_kw=dict(elinewidth=1.5))
+    # Strip x-axis tick labels; mapping comes from the shared legend strip
     ax.set_xticks(xpos)
-    ax.set_xticklabels(METHODS, rotation=45, ha="right", fontsize=14)
+    ax.set_xticklabels([])
+    ax.tick_params(axis="x", length=0)
     ax.set_ylabel(YLABEL[metric], fontsize=16)
     ax.tick_params(axis="y", labelsize=14)
     if metric == "time":

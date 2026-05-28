@@ -35,6 +35,18 @@ COLORS = {
     "ir_anat_sitk_rigid": "#1F78B4",
     "guidedpls": "#E41A1C",
 }
+DISPLAY_NAMES = {
+    "qgw":                "OT-qGW",
+    "frlc":               "OT-FRLC",
+    "lrgw":               "OT-LR-GW",
+    "ir_sum_rigid":       "IR-ANTsPy (rigid, sum)",
+    "ir_sum_affine":      "IR-ANTsPy (affine, sum)",
+    "ir_sum_sitk_rigid":  "IR-SimpleITK (rigid, sum)",
+    "ir_anat_rigid":      "IR-ANTsPy (rigid, anatomy)",
+    "ir_anat_affine":     "IR-ANTsPy (affine, anatomy)",
+    "ir_anat_sitk_rigid": "IR-SimpleITK (rigid, anatomy)",
+    "guidedpls":          "guided-PLS",
+}
 QGW_PARAMS = ["1E+8", "1E+9", "1E+10", "1E+11", "1E+12", "1E+13", "1E+14"]
 FRLC_PARAMS = ["10", "20", "30", "50"]
 LRGW_PARAMS = ["10", "20", "30", "50"]
@@ -79,8 +91,10 @@ def render(dataset, out_bar, out_legend):
            color=[COLORS[m] for m in METHODS],
            capsize=4, edgecolor="black", linewidth=0.5,
            error_kw=dict(elinewidth=1.5))
+    # Strip x-axis tick labels; mapping is provided by the shared legend strip
     ax.set_xticks(xpos)
-    ax.set_xticklabels(METHODS, rotation=45, ha="right", fontsize=14)
+    ax.set_xticklabels([])
+    ax.tick_params(axis="x", length=0)
     ax.set_ylabel("CC", fontsize=16)
     ax.tick_params(axis="y", labelsize=14)
     ax.axhline(0, color="black", linewidth=0.5)
@@ -91,11 +105,13 @@ def render(dataset, out_bar, out_legend):
     plt.close(fig)
     print(f"wrote {out_bar}")
 
-    # Horizontal legend strip — meant to be placed under the bar panel
-    fig, ax = plt.subplots(figsize=(14, 0.8), dpi=150)
-    handles = [mpatches.Patch(color=COLORS[m], label=m) for m in METHODS]
-    ax.legend(handles=handles, loc="center", frameon=False, fontsize=14,
-              ncol=len(METHODS), handletextpad=0.5, columnspacing=1.2)
+    # Horizontal legend strip with formal display names; 2 rows × 5 cols so
+    # the longer labels fit at readable font sizes
+    fig, ax = plt.subplots(figsize=(14, 1.6), dpi=150)
+    handles = [mpatches.Patch(color=COLORS[m], label=DISPLAY_NAMES[m])
+               for m in METHODS]
+    ax.legend(handles=handles, loc="center", frameon=False, fontsize=13,
+              ncol=5, handletextpad=0.5, columnspacing=1.5)
     ax.axis("off")
     fig.savefig(out_legend, dpi=150, transparent=True, bbox_inches="tight")
     plt.close(fig)
