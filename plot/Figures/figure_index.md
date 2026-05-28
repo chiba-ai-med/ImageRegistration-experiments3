@@ -40,6 +40,23 @@ Headline numbers (qgw, frlc, lrgw, ir_*, guidedpls):
 | Brain | ≈ −0.02 | ≈ 0.01 | ≈ 0.00 | ≈ 0.13 (ir_sum_rigid / ir_sum_affine / ir_anat_*) | **≈ 0.34** (HexCer family up to 0.65–0.73) |
 | Kidney | ≈ −0.03 | ≈ −0.03 | NA | ≈ 0.00 | **≈ 0.78** |
 
+### Fig. 3D — Per-method wall time (bar plot, log scale)
+
+`Fig3D_cost_time.png` — wall-time (seconds) per method, grouped bars: Brain (solid) vs Kidney (hatched). Mean ± SD across all parameter values for `qgw / frlc / lrgw`, single value for each `ir_*` and `guidedpls`. Log y-axis to span the 10× spread between fastest (ir_sum_sitk_rigid brain, 13 s) and slowest (kidney FRLC rank=50, 693 s).
+
+### Fig. 3E — Per-method peak memory (bar plot)
+
+`Fig3E_cost_memory.png` — peak RSS (MB) per method, same grouping as 3D. Brain LR-GW stands out at **~27 GB** — an order of magnitude above every other method. The qGW brain bar has a large SD because the 7 ε values span 1.7 GB → 14.5 GB of memory.
+
+Headline numbers (representative point per cell):
+
+| Tissue | qGW (ε=1E+12) | FRLC (rank=10) | LR-GW (rank=10) | ir_anat_rigid | ir_anat_sitk_rigid | guidedpls |
+|---|---|---|---|---|---|---|
+| Brain time / RSS | 55 s / 2.4 GB | 46 s / 2.0 GB | 79 s / **27 GB** | 30 s / 1.1 GB | 33 s / 1.0 GB | 196 s / 4.3 GB |
+| Kidney time / RSS | 166 s / 5.6 GB | 358 s / 3.2 GB | 21 s* / 4.7 GB | 658 s / 5.1 GB | 154 s / 4.1 GB | 152 s / 6.2 GB |
+
+*Kidney LR-GW exited non-zero on every rank (degenerate output). Wall + RSS are real but the solver bailed early — the bars in Fig. 3D / 3E reflect "time spent before failure" rather than "time to a valid warp". Document explicitly in the caption.
+
 ## Supplementary (`plot/Figures/supplementary/`)
 
 Each subdirectory is split into `brain/` and `kidney/` (except as noted).
@@ -79,7 +96,9 @@ Source/target density and log-scale distributions.
 
 - `src/render_slices.py` — Python+matplotlib reimplementation of `src/plot_datasets.R` for both tissues (the R script depends on `Mus.musculus` + `tagcloud` which aren't installed locally). Run with `<dataset> [<s>]`, e.g. `conda run -n pytorch python3 src/render_slices.py kidney 900`. Defaults: brain `s=250`, kidney `s=900` (tuned to per-tissue spot density).
 - `src/render_ir_kidney.py` — Renders the 6 kidney IR-method slices from `output/kidney/ir_*/warped.txt` (the original R pipeline never produced them). Reads the `FA 22:6` column, plots on target coords with `s=900`.
-- `src/render_cc_barplot.py` — Python+matplotlib regeneration of the per-method CC bar plot, mirroring `src/plot_cc.R`'s aggregation (mean ± SD across all params × markers). Outputs `{out_bar, out_legend}`. Wide / short layout with separate legend.
+- `src/render_cc_barplot.py` — Python+matplotlib regeneration of the per-method CC bar plot, mirroring `src/plot_cc.R`'s aggregation (mean ± SD across all params × markers). Outputs `{out_bar, out_legend}`. Wide / short layout with horizontal legend strip designed to sit under the bar panel.
+- `src/render_cost_barplot.py` — Reads snakemake-format `benchmarks/{dataset}_{method}_*.txt` and renders Fig. 3D (wall time, log y) or Fig. 3E (peak RSS). Both tissues shown as grouped bars (solid = brain, hatched = kidney).
+- `src/bench_ot.py` — Stand-alone runner that re-executes FRLC + LR-GW on `{251208, kidney} × ranks {10, 20, 30, 50}` and writes benchmark files in snakemake's tab-separated format. Used because the original snakemake `benchmark:` directives were never captured for these rules. Wraps `src/myfrlc.py` / `src/mylrgw.py` directly and measures wall + peak RSS via psutil.
 
 ## Provenance
 
