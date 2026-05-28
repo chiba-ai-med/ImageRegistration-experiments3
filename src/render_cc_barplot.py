@@ -105,13 +105,15 @@ def render(dataset, out_bar, out_legend):
     plt.close(fig)
     print(f"wrote {out_bar}")
 
-    # Horizontal legend strip with formal display names; 2 rows × 5 cols so
-    # the longer labels fit at readable font sizes
-    fig, ax = plt.subplots(figsize=(14, 1.6), dpi=150)
+    # Horizontal legend strip with formal display names; 4 rows × 3 cols
+    # (10 entries fill 4×3 = 12 slots with 2 empty) so longer labels fit
+    # at readable font sizes
+    fig, ax = plt.subplots(figsize=(10, 2.6), dpi=150)
     handles = [mpatches.Patch(color=COLORS[m], label=DISPLAY_NAMES[m])
                for m in METHODS]
-    ax.legend(handles=handles, loc="center", frameon=False, fontsize=13,
-              ncol=5, handletextpad=0.5, columnspacing=1.5)
+    ax.legend(handles=handles, loc="center", frameon=False, fontsize=14,
+              ncol=3, handletextpad=0.5, columnspacing=1.5,
+              labelspacing=0.6)
     ax.axis("off")
     fig.savefig(out_legend, dpi=150, transparent=True, bbox_inches="tight")
     plt.close(fig)
