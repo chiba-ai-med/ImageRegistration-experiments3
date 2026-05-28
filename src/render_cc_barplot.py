@@ -91,10 +91,11 @@ def render(dataset, out_bar, out_legend):
     plt.close(fig)
     print(f"wrote {out_bar}")
 
-    fig, ax = plt.subplots(figsize=(3.5, 3.5), dpi=150)
+    # Horizontal legend strip — meant to be placed under the bar panel
+    fig, ax = plt.subplots(figsize=(14, 0.8), dpi=150)
     handles = [mpatches.Patch(color=COLORS[m], label=m) for m in METHODS]
     ax.legend(handles=handles, loc="center", frameon=False, fontsize=14,
-              title="Method", title_fontsize=16)
+              ncol=len(METHODS), handletextpad=0.5, columnspacing=1.2)
     ax.axis("off")
     fig.savefig(out_legend, dpi=150, transparent=True, bbox_inches="tight")
     plt.close(fig)
