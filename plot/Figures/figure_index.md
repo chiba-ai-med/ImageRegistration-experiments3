@@ -1,8 +1,6 @@
 # Figure Index — ImageRegistration-experiments3
 
-`Figure3.png` at the repo root of this directory is the **composited final Fig. 3** (panel a = transported slices, panel b = bar plots). The per-panel PNGs below are the source assets that compose into it.
-
-Curated figure candidates for the **Spatial omics / Image registration** section of the guidedPLS manuscript.
+Curated figure candidates for the **Spatial omics / Image registration** section of the guidedPLS manuscript. Final compositing happens outside this repo; this directory tracks the per-panel source PNGs.
 
 - **Fig. 3 — Brain** (mouse brain `251208`, lipid MSI **Positive mode** → spatial transcriptomics)
 - **Suppl. Fig. S — Kidney** (mouse kidney, lipid MSI **Negative mode** → spatial transcriptomics)
@@ -99,13 +97,13 @@ Numerical values quoted above are read from `output/{251208,kidney}/{method}/cc.
 
 ## Conventions
 
-- Naming: `Fig3{a,b}_brain_{description}.png` for the main figure, `FigS{a,b}_kidney_{description}.png` for the supplementary tissue figure (lowercase letters match the panel labels in the composited `Figure3.png`). For alignment slices, the description starts with a numerical prefix matching the new bar-plot order: `00_source` → `01..06_ir_{sum,anat}_{rigid,affine,sitk_rigid}` → `07_qGW` → `08_FRLC` → `09_LR-GW` (brain only) → `10_guidedPLS`.
+- Naming: `Fig3{a,b}_brain_{description}.png` for the main figure, `FigS{a,b}_kidney_{description}.png` for the supplementary tissue figure (lowercase letters match the two panel labels (a) / (b) in the final composited figure). For alignment slices, the description starts with a numerical prefix matching the new bar-plot order: `00_source` → `01..06_ir_{sum,anat}_{rigid,affine,sitk_rigid}` → `07_qGW` → `08_FRLC` → `09_LR-GW` (brain only) → `10_guidedPLS`.
 - All images are PNG. Hand-curated figures live in `main/`; everything else lives under `supplementary/`.
 - **Always check orientation** before finalizing any panel.
 
 ## Method display names
 
-Listed in the **bar-plot order** used in `Figure3.png` panel (b) and in every `*_legend.png`: classical image-registration baselines first, then the OT methods, then guidedPLS.
+Listed in the **bar-plot order** used in panel (b) and in every `*_legend.png`: classical image-registration baselines first, then the OT methods, then guidedPLS.
 
 - `ir_sum_rigid` — **IR-ANTsPy (rigid, sum)**
 - `ir_sum_affine` — **IR-ANTsPy (affine, sum)**
