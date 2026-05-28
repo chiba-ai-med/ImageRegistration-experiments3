@@ -1,6 +1,6 @@
 # Paper Takeaway — ImageRegistration-experiments3
 
-Claims this repository contributes to the guidedPLS manuscript via **Fig. 3 — Spatial omics / Image registration** (single combined figure: slices in A, brain CC bar in B, kidney CC bar in C, wall time in D, peak memory in E):
+Claims this repository contributes to the guidedPLS manuscript via **Fig. 3 — Spatial omics / Image registration** (single combined figure across nine panel groups A–I: tissue slices in A; per-tissue CC bars in B/C; per-tissue wall-time bars in D/E; per-tissue peak-memory bars in F/G; per-tissue per-method warped slices in H/I):
 
 1. **The cross-modal MSI ↔ ST alignment task is not solved by standard optimal-transport baselines on either tissue.** On brain (47K source × 173 lipids → 40K target × 1,120 genes) and kidney (marker pair `FA.22.6 × Slc27a2`), qGW (ε ∈ 10^8…10^14), FRLC (rank ∈ {10, 20, 30, 50}), and LR-GW (rank ∈ {10, 20, 30, 50}) all yield mean CC ≈ 0. LR-GW additionally produces degenerate (all-NA) output on kidney.
 2. **Classical image-registration baselines (ANTsPy rigid/affine, SITK rigid; sum-image or anatomy-driven) reach only modest CC ≈ 0.10–0.13 on brain and ≈ 0 on kidney**, confirming that simply aligning the two slices in image space is insufficient — the source and target have fundamentally different feature spaces.

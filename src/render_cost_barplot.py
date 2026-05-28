@@ -1,19 +1,20 @@
-"""Render Fig3D (time) and Fig3E (memory) — per-method computational cost.
+"""Render per-method computational-cost bar plots (one per dataset × metric).
 
 Reads snakemake's benchmark files at `benchmarks/{dataset}_{method}_*.txt`
-(format: tab-separated, first row column names, second row values; the
-relevant columns are `s` for wall-time seconds and `max_rss` for peak RSS in
-MB) and aggregates mean ± SD across all parameter values per method.
+(tab-separated; columns `s` for wall-time seconds, `max_rss` for peak RSS MB)
+and aggregates mean ± SD across all parameter values per method.
 
-Layout matches Fig3B / Fig3C:
+Layout mirrors Fig3B / Fig3C (one tissue per panel, no mixing):
 - one bar per method (qgw, frlc, lrgw, ir_*, guidedpls) — 10 methods total
-- both tissues shown as grouped bars (brain vs kidney side by side)
 - short / wide layout (10 × 3.5 in), 14-16 pt fonts
-- separate horizontal legend (same as Fig3B legend; reuse)
+- legend strip is the same as Fig3B/C — not regenerated here
 
 Usage:
-    python3 src/render_cost_barplot.py time   plot/Figures/main/Fig3D_cost_time.png
-    python3 src/render_cost_barplot.py memory plot/Figures/main/Fig3E_cost_memory.png
+    python3 src/render_cost_barplot.py <dataset> <metric> <out>
+    dataset ∈ {251208, kidney}; metric ∈ {time, memory}
+Example:
+    python3 src/render_cost_barplot.py 251208 time   plot/Figures/main/Fig3D_brain_cost_time.png
+    python3 src/render_cost_barplot.py kidney memory plot/Figures/main/Fig3G_kidney_cost_memory.png
 """
 import matplotlib
 matplotlib.use("Agg")
@@ -43,8 +44,6 @@ PARAM_SETS = {
     "frlc": ["10", "20", "30", "50"],
     "lrgw": ["10", "20", "30", "50"],
 }
-DATASETS = ["251208", "kidney"]
-TISSUE_LABEL = {"251208": "Brain", "kidney": "Kidney"}
 COLUMN = {"time": "s", "memory": "max_rss"}
 YLABEL = {"time": "Wall time (s)", "memory": "Peak RSS (MB)"}
 
@@ -69,29 +68,21 @@ def _collect(dataset, metric):
     return out
 
 
-def render(metric, out_path):
-    data = {d: _collect(d, metric) for d in DATASETS}
-    n_methods = len(METHODS)
-    xpos = np.arange(n_methods)
-    width = 0.4
+def render(dataset, metric, out_path):
+    data = _collect(dataset, metric)
+    xpos = np.arange(len(METHODS))
+    means, sds = [], []
+    for m in METHODS:
+        vals = data[m]
+        vals = vals[~np.isnan(vals)]
+        means.append(vals.mean() if vals.size else np.nan)
+        sds.append(vals.std(ddof=1) if vals.size > 1 else 0.0)
 
     fig, ax = plt.subplots(figsize=(10, 3.5), dpi=150)
-    for i, d in enumerate(DATASETS):
-        means, sds = [], []
-        for m in METHODS:
-            vals = data[d][m]
-            vals = vals[~np.isnan(vals)]
-            means.append(vals.mean() if vals.size else np.nan)
-            sds.append(vals.std(ddof=1) if vals.size > 1 else 0.0)
-        offset = (i - 0.5) * width
-        # hatch to distinguish tissues without relying on new colours
-        hatch = "" if d == "251208" else "//"
-        ax.bar(xpos + offset, means, width, yerr=sds,
-               color=[COLORS[m] for m in METHODS],
-               edgecolor="black", linewidth=0.5,
-               hatch=hatch, capsize=3,
-               error_kw=dict(elinewidth=1.2),
-               label=TISSUE_LABEL[d])
+    ax.bar(xpos, means, yerr=sds,
+           color=[COLORS[m] for m in METHODS],
+           capsize=4, edgecolor="black", linewidth=0.5,
+           error_kw=dict(elinewidth=1.5))
     ax.set_xticks(xpos)
     ax.set_xticklabels(METHODS, rotation=45, ha="right", fontsize=14)
     ax.set_ylabel(YLABEL[metric], fontsize=16)
@@ -100,14 +91,6 @@ def render(metric, out_path):
         ax.set_yscale("log")
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
-    # legend distinguishing tissues (hatch) — keep small, inside the plot
-    handles = [
-        plt.Rectangle((0, 0), 1, 1, facecolor="lightgray", edgecolor="black",
-                      hatch="", label="Brain"),
-        plt.Rectangle((0, 0), 1, 1, facecolor="lightgray", edgecolor="black",
-                      hatch="//", label="Kidney"),
-    ]
-    ax.legend(handles=handles, loc="upper left", frameon=False, fontsize=12)
     fig.tight_layout()
     fig.savefig(out_path, dpi=150, transparent=True, bbox_inches="tight")
     plt.close(fig)
@@ -115,6 +98,6 @@ def render(metric, out_path):
 
 
 if __name__ == "__main__":
-    metric, out_path = sys.argv[1], sys.argv[2]
+    dataset, metric, out_path = sys.argv[1], sys.argv[2], sys.argv[3]
     Path(out_path).parent.mkdir(parents=True, exist_ok=True)
-    render(metric, out_path)
+    render(dataset, metric, out_path)

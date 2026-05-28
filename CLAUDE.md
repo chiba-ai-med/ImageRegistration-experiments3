@@ -74,7 +74,13 @@ Notes on the failed methods (for reference, not to revisit):
 - `plot/251208/` — brain pipeline outputs (Fig. 3 source). Marker pair: HexCer/SM × Mog/Sox10 (myelin).
 - `plot/kidney/` — kidney pipeline outputs (Fig. 4 source). Marker pair: FA.22.6 × Slc27a2 (DHA / proximal-tubule transporter). Only a single source–target pair is evaluated.
 - `workflow/{evaluate,ir}.smk` — older/superseded workflows; not included in `dag.sh` / `report.sh`. The 5 active workflows are `preprocess`, `ot`, `guidedpls`, `evaluation`, `plot`
-- `plot/Figures/` — paper-ready figures hand-picked from `plot/{251208,kidney}/`. `main/` holds the new condensed Fig.3 layout: `Fig3A_{brain,kidney}_{source,target,...}.png` (slices), `Fig3B_{brain,kidney}_pairplot_*.png` (pairplots), `Fig3C_{brain,kidney}_cc_summary.png` (bar plots). Demoted per-method comparisons and representative warped features live under `supplementary/representative_panels/{brain,kidney}/`. Other supplementary topic dirs (`parameter_sensitivity`, `per_method_alignment`, `qc_preprocessing`, `cross_method_pairplots`) also split into `brain/` and `kidney/`. `plot/*.png` at the top level are Snakemake DAG images (embedded in README).
+- `plot/Figures/` — paper-ready figures hand-picked from `plot/{251208,kidney}/` and `output/{251208,kidney}/`. `main/` holds the Fig. 3 layout in nine panel groups (A–I), all per-tissue (brain / kidney never mixed in one panel):
+  - Fig3A: tissue slices (source / target / anatomy × 2 tissues)
+  - Fig3B: brain CC bar, Fig3C: kidney CC bar (legends in separate `_legend.png` strips)
+  - Fig3D: brain wall time, Fig3E: kidney wall time
+  - Fig3F: brain peak memory, Fig3G: kidney peak memory
+  - Fig3H: brain per-method warped slices (`HexCer.42.1.O2`, 11 panels), Fig3I: kidney per-method warped slices (`FA.22.6`, 10 panels — LR-GW absent due to degenerate output)
+  Demoted hand-picked panels (pairplots, additional warped features) live under `supplementary/representative_panels/{brain,kidney}/`. Other supplementary topic dirs (`parameter_sensitivity`, `per_method_alignment`, `qc_preprocessing`, `cross_method_pairplots`) also split into `brain/` and `kidney/`. `plot/*.png` at the top level are Snakemake DAG images (embedded in README).
 
 ## Orientation caveat
 
