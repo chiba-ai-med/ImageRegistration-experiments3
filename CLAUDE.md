@@ -56,9 +56,9 @@ This repo is one of 4 repos that will be merged into a single paper:
 - `chiba-ai-med/guidedPLS-experiments-sim` — GuidedPLS on synthetic data with known ground truth
 - `chiba-ai-med/guidedPLS-experiments-bulk` — GuidedPLS on bulk data
 - `chiba-ai-med/guidedPLS-experiments-sc` — GuidedPLS on single-cell data
-- `chiba-ai-med/ImageRegistration-experiments3` (this repo) — cross-modal spatial alignment benchmark (MSI ↔ ST); contributes **Fig. 3 (Brain)** and **Fig. 4 (Kidney)** in the Spatial omics / Image registration section. Each has 5 panels A–E (slices / CC bar / wall time / peak memory / per-method warped slices); they were split because the 10-method comparison doesn't fit on a single tissue-combined panel.
+- `chiba-ai-med/ImageRegistration-experiments3` (this repo) — cross-modal spatial alignment benchmark (MSI ↔ ST); contributes **Fig. 3 (Brain, Positive-mode MSI)** in the main text plus **Suppl. Fig. S (Kidney, Negative-mode MSI)** as a second-tissue replication. Both have 5 panels A–E (slices / CC bar / wall time / peak memory / per-method warped slices).
 
-Each repo summarizes its own results in isolation; results are merged in the final paper. Figure assignments: sim → Fig. 2, this repo → Fig. 3 + Fig. 4, bulk / sc → Fig. 5+ (TBD).
+Each repo summarizes its own results in isolation; results are merged in the final paper. Figure assignments: sim → Fig. 2, this repo → Fig. 3 (+ Suppl.), bulk / sc → Fig. 4+ (TBD).
 
 ## Benchmark results summary
 
@@ -74,13 +74,14 @@ Notes on the failed methods (for reference, not to revisit):
 - `plot/251208/` — brain pipeline outputs (Fig. 3 source). Marker pair: HexCer/SM × Mog/Sox10 (myelin).
 - `plot/kidney/` — kidney pipeline outputs (Fig. 4 source). Marker pair: FA.22.6 × Slc27a2 (DHA / proximal-tubule transporter). Only a single source–target pair is evaluated.
 - `workflow/{evaluate,ir}.smk` — older/superseded workflows; not included in `dag.sh` / `report.sh`. The 5 active workflows are `preprocess`, `ot`, `guidedpls`, `evaluation`, `plot`
-- `plot/Figures/` — paper-ready figures hand-picked from `plot/{251208,kidney}/` and `output/{251208,kidney}/`. `main/` holds two figures (`Fig3*` brain, `Fig4*` kidney), each with five panels:
-  - A: tissue slices (source / target / source-anatomy / target-anatomy)
-  - B: per-method CC bar + horizontal legend
-  - C: per-method wall time (log y)
-  - D: per-method peak memory
-  - E: warped slices for the evaluation marker across all bar-plot methods (11 panels brain, 10 panels kidney — LR-GW absent on kidney due to degenerate output)
-  Demoted hand-picked panels (pairplots, additional warped features) live under `supplementary/representative_panels/{brain,kidney}/`. Other supplementary topic dirs (`parameter_sensitivity`, `per_method_alignment`, `qc_preprocessing`, `cross_method_pairplots`) also split into `brain/` and `kidney/`. `plot/*.png` at the top level are Snakemake DAG images (embedded in README).
+- `plot/Figures/` — paper-ready figures hand-picked from `plot/{251208,kidney}/` and `output/{251208,kidney}/`. `main/` holds **Fig. 3 (Brain) only**, in 5 panels:
+  - 3A: tissue slices (source / target / source-anatomy / target-anatomy)
+  - 3B: per-method CC bar + horizontal legend
+  - 3C: per-method wall time (log y)
+  - 3D: per-method peak memory
+  - 3E: warped slices for HexCer.42.1.O2 across all 10 bar-plot methods (+ source = 11 panels)
+
+  Kidney is demoted to **`supplementary/figS_kidney/`** as Suppl. Fig. S with the same A–E structure (10 panels in SE — LR-GW absent due to degenerate output). Other supplementary topic dirs (`representative_panels`, `parameter_sensitivity`, `per_method_alignment`, `qc_preprocessing`, `cross_method_pairplots`) also split into `brain/` and `kidney/`. `plot/*.png` at the top level are Snakemake DAG images (embedded in README).
 
 ## Orientation caveat
 
