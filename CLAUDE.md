@@ -56,9 +56,9 @@ This repo is one of 4 repos that will be merged into a single paper:
 - `chiba-ai-med/guidedPLS-experiments-sim` — GuidedPLS on synthetic data with known ground truth
 - `chiba-ai-med/guidedPLS-experiments-bulk` — GuidedPLS on bulk data
 - `chiba-ai-med/guidedPLS-experiments-sc` — GuidedPLS on single-cell data
-- `chiba-ai-med/ImageRegistration-experiments3` (this repo) — cross-modal spatial alignment benchmark (MSI ↔ ST); contributes **Fig. 3 (Brain)** and **Fig. 4 (Kidney)** in the Spatial omics / Image registration section
+- `chiba-ai-med/ImageRegistration-experiments3` (this repo) — cross-modal spatial alignment benchmark (MSI ↔ ST); contributes **Fig. 3 (Spatial omics / Image registration)** covering both brain and kidney in one combined figure
 
-Each repo summarizes its own results in isolation; results are merged in the final paper. Figure assignments: sim → Fig. 2, this repo → Fig. 3 + Fig. 4, bulk / sc → Fig. 5+ (TBD).
+Each repo summarizes its own results in isolation; results are merged in the final paper. Figure assignments: sim → Fig. 2, this repo → Fig. 3, bulk / sc → Fig. 4+ (TBD).
 
 ## Benchmark results summary
 
@@ -74,7 +74,7 @@ Notes on the failed methods (for reference, not to revisit):
 - `plot/251208/` — brain pipeline outputs (Fig. 3 source). Marker pair: HexCer/SM × Mog/Sox10 (myelin).
 - `plot/kidney/` — kidney pipeline outputs (Fig. 4 source). Marker pair: FA.22.6 × Slc27a2 (DHA / proximal-tubule transporter). Only a single source–target pair is evaluated.
 - `workflow/{evaluate,ir}.smk` — older/superseded workflows; not included in `dag.sh` / `report.sh`. The 5 active workflows are `preprocess`, `ot`, `guidedpls`, `evaluation`, `plot`
-- `plot/Figures/` — paper-ready figures hand-picked from `plot/{251208,kidney}/`. `main/` holds Fig3* (brain) + Fig4* (kidney); `supplementary/{topic}/{brain,kidney}/` mirrors the split. `plot/*.png` at the top level are Snakemake DAG images (embedded in README).
+- `plot/Figures/` — paper-ready figures hand-picked from `plot/{251208,kidney}/`. `main/` holds the new condensed Fig.3 layout: `Fig3A_{brain,kidney}_{source,target,...}.png` (slices), `Fig3B_{brain,kidney}_pairplot_*.png` (pairplots), `Fig3C_{brain,kidney}_cc_summary.png` (bar plots). Demoted per-method comparisons and representative warped features live under `supplementary/representative_panels/{brain,kidney}/`. Other supplementary topic dirs (`parameter_sensitivity`, `per_method_alignment`, `qc_preprocessing`, `cross_method_pairplots`) also split into `brain/` and `kidney/`. `plot/*.png` at the top level are Snakemake DAG images (embedded in README).
 
 ## Orientation caveat
 

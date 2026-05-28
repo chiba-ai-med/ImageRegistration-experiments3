@@ -68,8 +68,8 @@ outfile10 = paste0(outdir, "target_anatomy.png")
 }
 
 if (dataset == "kidney") {
-    src_w <- 600; src_h <- 1200; src_cex <- 0.7
-    tgt_w <- 600; tgt_h <- 1200; tgt_cex <- 0.7
+    src_w <- 1200; src_h <- 1200; src_cex <- 3.5
+    tgt_w <- 1200; tgt_h <- 1200; tgt_cex <- 3.5
     src_plot_fn <- function(x, y, z, cex=1) {
         plot(y, -x, col=.mycolor(z), pch=16, cex=cex,
             xaxt="n", yaxt="n", xlab="", ylab="", axes=FALSE)

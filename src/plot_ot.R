@@ -23,7 +23,7 @@ if (!is_kidney) {
 outdir <- gsub("FINISH", "", outfile)
 
 if (is_kidney) {
-    plot_w <- 600; plot_h <- 1200; plot_cex <- 0.7
+    plot_w <- 1200; plot_h <- 1200; plot_cex <- 3.5
     plot_fn <- function(x, y, z, cex=1) {
         plot(-y, -x, col=.mycolor(z), pch=16, cex=cex,
             xaxt="n", yaxt="n", xlab="", ylab="", axes=FALSE)
